@@ -445,13 +445,15 @@ def _get_user_input(log: Log, workspace: Path | None) -> Message | None:
 def step(
     log: Log | list[Message],
     stream: bool,
-    _confirm=None,  # deprecated, confirmation now via hooks
     tool_format: ToolFormat = "markdown",
     workspace: Path | None = None,
     model: str | None = None,
     output_schema: type | None = None,
 ) -> Generator[Message, None, None]:
-    """Runs a single pass of the chat - generates response and executes tools."""
+    """Runs a single pass of the chat - generates response and executes tools.
+
+    Confirmation is handled via the hook system within ToolUse.execute().
+    """
     global _recently_interrupted
 
     default_model = get_default_model()
